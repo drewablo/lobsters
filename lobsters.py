@@ -3,11 +3,11 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import Select
+from time import sleep
 import re
-import os 
 
-
-driver = webdriver.Firefox()
+fp =webdriver.FirefoxProfile('/home/andrewpt85/.mozilla/firefox/todr4fv6.default')
+driver = webdriver.Firefox(fp)
 driver.get("http://www.ilsos.gov/lobbyistsearch/")
 element = driver.find_element_by_xpath("//input[@value='official']")
 element.click()
@@ -44,21 +44,8 @@ if table.findAll('tr')[x:]:
 					html_source = driver.page_source
 					soup = BeautifulSoup(html_source)
 					if soup.find('table', id='tabTwo'):
-						element = driver.find_element_by_xpath("//td/font/a")
+						element = driver.find_element_by_xpath("//tr[2]/td[6]/font/a")	
 						element.click()
-						windows = driver.window_handles
-						expwin = windows[1]
-						mainwin = windows[0]
-						print windows
-						driver.switch_to_window(expwin)
-						element = driver.find_element_by_xpath("//div/div[2]/button[4]")
-						element.send_keys(Keys.RETURN)
-						
-			driver.back();		
-		'''
-		if table.findAll('tr')[5:]:
-			if soup.findAll('a',href=True):
-				print soup.findAll('a',href=True)
-				element = driver.find_element_by_xpath("//tr/tdfont/a")
-				element.click()
-				'''
+						sleep(.1)					
+			driver.back()
+driver.back()
