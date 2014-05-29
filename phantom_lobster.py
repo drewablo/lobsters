@@ -1,14 +1,16 @@
 from selenium import webdriver  
 from selenium.common.exceptions import NoSuchElementException  
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
 from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import Select
 from time import sleep
 import re
 
 while True:
-	driver = webdriver.PhantomJS(executable_path="C:\Python27\phantomjs\phantomjs.exe")
+	driver = webdriver.PhantomJS(executable_path="C:\Python27\phantomjs\phantomjs.exe", service_args=['--lcoal-storage-path=/temp'])
 	driver.get("http://www.ilsos.gov/lobbyistsearch/")
+	AC = ActionChains(driver)
 	element = driver.find_element_by_xpath("//input[@value='official']")
 	element.click()
 	element = driver.find_element_by_xpath("//input[@value='Submit']")
@@ -50,15 +52,15 @@ while True:
 							if soup.find('table', id='tabTwo'):
 								element = driver.find_element_by_xpath("//tr[2]/td[6]/font/a")	
 								element.click()	
-								sleep(10)
+								sleep(5)
 								win = driver.window_handles
 								driver.switch_to_window(win[1])
-								element = driver.find_ement_by_tag_name("body")
-								ActionsChains(driver).key_down(Keys.CONTROL).send_keys('c').key_up(Keys.CONTROL).send_keys(Keys.ENTER).perform()
+								AC.key_down(Keys.CONTROL).send_keys('c').key_up(Keys.CONTROL).perform()
+								sleep(1)
+								AC.send_keys(Keys.ENTER)
 								print "Saved"
 								driver.switch_to_window(win[0])
 								driver.back()
 
 			z+=1
 			driver.back()
-			
